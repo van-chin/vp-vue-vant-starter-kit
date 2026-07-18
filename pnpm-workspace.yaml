@@ -1,0 +1,23 @@
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@0.2.5
+  vite-plus: 0.2.5
+  vue: "^3.5.40"
+  vant: "^4.10.0"
+  "@vueuse/core": "^14.3.0"
+  "@unhead/vue": "^3.1.8"
+  "@vant/touch-emulator": "^1.5.0"
+  pinia: "^4.0.2"
+  pinia-plugin-persistedstate: "^4.7.1"
+  vconsole: "^3.15.1"
+  vue-router: "^5.2.0"
+  alova: "^3.5.2"
+  tailwindcss: "^4.3.3"
+  nitro: "3.0.260610-beta"
+  "@tailwindcss/vite": "^4.3.3"
+overrides:
+  vite: "catalog:"
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: "*"
