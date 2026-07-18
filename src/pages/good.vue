@@ -13,7 +13,9 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    layout: 'screen',
+    layout: 'default',
+    showHeader: false,
+    showFooter: true,
   },
 });
 </script>

@@ -72,6 +72,7 @@ declare global {
   const useCssVars: typeof import('vue').useCssVars;
   const useEnv: typeof import('../../src/composables/useEnv').useEnv;
   const useId: typeof import('vue').useId;
+  const useLayoutConfig: typeof import('../../src/composables/useLayoutConfig').useLayoutConfig;
   const useLink: typeof import('vue-router').useLink;
   const useModel: typeof import('vue').useModel;
   const useRoute: typeof import('vue-router').useRoute;
@@ -109,4 +110,7 @@ declare global {
   // @ts-ignore
   export type { EnvConfig } from '../../src/composables/useEnv';
   import('../../src/composables/useEnv');
+  // @ts-ignore
+  export type { LayoutConfigOptions } from '../../src/composables/useLayoutConfig';
+  import('../../src/composables/useLayoutConfig');
 }

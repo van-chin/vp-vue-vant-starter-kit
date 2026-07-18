@@ -6,6 +6,17 @@ declare module '*.vue' {
   export default component;
 }
 
+declare module 'vue-router' {
+  interface RouteMeta {
+    /** 是否展示 layout 头部导航栏（默认 true） */
+    showHeader?: boolean;
+    /** 是否展示 layout 底部导航栏（默认 true） */
+    showFooter?: boolean;
+  }
+}
+
+export {};
+
 interface ImportMetaEnv {
   /** API 基础路径 */
   readonly VITE_API_BASE_URL: string;

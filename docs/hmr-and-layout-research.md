@@ -29,14 +29,17 @@
 `vite-plugin-vue-layouts-next` 在 `configureServer` 中注册了 chokidar watcher：
 
 ```js
-watcher.on("change", async (path) => { updateVirtualModule(path); });
+watcher.on('change', async (path) => {
+  updateVirtualModule(path);
+});
 
 const updateVirtualModule = (path) => {
   path = normalizePath(path);
   // 同时监听 pagesDirs 和 layoutsDirs！
-  if (pagesDirs.length === 0
-    || pagesDirs.some((dir) => path.startsWith(dir))
-    || layoutsDirs.some((dir) => path.startsWith(dir))
+  if (
+    pagesDirs.length === 0 ||
+    pagesDirs.some((dir) => path.startsWith(dir)) ||
+    layoutsDirs.some((dir) => path.startsWith(dir))
   ) {
     reloadModule(moduleGraph.getModuleById(MODULE_ID_VIRTUAL));
     // → ws.send({ path, type: "full-reload" })
@@ -45,6 +48,7 @@ const updateVirtualModule = (path) => {
 ```
 
 当 `pagesDirs`（默认 `'src/pages'`）下的文件变化时，布局插件会：
+
 1. 使虚拟模块 `virtual:generated-layouts` 失效
 2. 通过 WebSocket 发送 `full-reload` 给浏览器
 3. 浏览器整个页面刷新
@@ -58,7 +62,7 @@ if (import.meta.hot) {
   import.meta.hot.accept((mod) => {
     router.clearRoutes();
     for (const route of mod.routes) {
-      router.addRoute(route);   // 注意：mod.routes 是原始路由，未经 setupLayouts 包裹
+      router.addRoute(route); // 注意：mod.routes 是原始路由，未经 setupLayouts 包裹
     }
     router_hotUpdateCallback?.(mod.routes);
     router.replace({ ...route, name: undefined, matched: undefined, force: true });
@@ -89,16 +93,16 @@ if (import.meta.hot) {
 Layouts({
   layoutsDirs: 'src/layouts',
   defaultLayout: 'default',
-  pagesDirs: 'src/pages/_nonexistent_',   // ← 避免 full-reload
+  pagesDirs: 'src/pages/_nonexistent_', // ← 避免 full-reload
   exclude: ['**/components/**'],
 });
 ```
 
 效果：
 
-| 文件变化 | 布局插件 watcher | 浏览器行为 |
-|----------|-----------------|-----------|
-| `src/pages/*.vue` | pagesDirs 不匹配 → 无操作 | Vue Router HMR，原地更新 ✅ |
+| 文件变化            | 布局插件 watcher               | 浏览器行为                       |
+| ------------------- | ------------------------------ | -------------------------------- |
+| `src/pages/*.vue`   | pagesDirs 不匹配 → 无操作      | Vue Router HMR，原地更新 ✅      |
 | `src/layouts/*.vue` | layoutsDirs 匹配 → full-reload | 页面刷新（布局结构变化，合理）✅ |
 
 ### 修复二：HMR 时重新包裹布局
@@ -127,20 +131,20 @@ GitHub README 中描述的功能对应的是尚未发布的 **v3** 版本（npm 
 
 ### 相关变更
 
-| 变更项 | v2.1.0 | v3（未发布） |
-|--------|--------|-------------|
-| `pagesDirs` 选项 | 存在，默认 `'src/pages'` | **移除** |
-| 页面发现与 HMR | 布局插件通过 `pagesDirs` 监听页面的变化 | 完全由 Vue Router 5 负责 |
-| 布局名归一化 | 不支持。key 是原始路径：`screen/index.vue` → `'screen/index'` | 支持 Nuxt 兼容归一化：`screen/index.vue` → `'screen'` |
-| 布局插件职责 | 监听页面 + 布局文件变化 | **仅**监听和解析布局 |
+| 变更项           | v2.1.0                                                        | v3（未发布）                                          |
+| ---------------- | ------------------------------------------------------------- | ----------------------------------------------------- |
+| `pagesDirs` 选项 | 存在，默认 `'src/pages'`                                      | **移除**                                              |
+| 页面发现与 HMR   | 布局插件通过 `pagesDirs` 监听页面的变化                       | 完全由 Vue Router 5 负责                              |
+| 布局名归一化     | 不支持。key 是原始路径：`screen/index.vue` → `'screen/index'` | 支持 Nuxt 兼容归一化：`screen/index.vue` → `'screen'` |
+| 布局插件职责     | 监听页面 + 布局文件变化                                       | **仅**监听和解析布局                                  |
 
 ### 与我们的修复的关系
 
-| 我们的修复 | v3 原生行为 |
-|-----------|------------|
-| `pagesDirs: 'src/pages/_nonexistent_'` | `pagesDirs` 选项被移除，不复存在 |
+| 我们的修复                                    | v3 原生行为                                       |
+| --------------------------------------------- | ------------------------------------------------- |
+| `pagesDirs: 'src/pages/_nonexistent_'`        | `pagesDirs` 选项被移除，不复存在                  |
 | 布局文件 `screen.vue` / `admin.vue`（根层级） | 内置 Nuxt 归一化，`screen/index.vue` → `'screen'` |
-| `handleHotUpdate` 回调重新包裹布局 | 页面 HMR 交 Vue Router 5 管理，插件不干涉 |
+| `handleHotUpdate` 回调重新包裹布局            | 页面 HMR 交 Vue Router 5 管理，插件不干涉         |
 
 ### 升级到 v3 时的注意事项
 
