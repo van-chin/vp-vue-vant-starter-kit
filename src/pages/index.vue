@@ -1,5 +1,5 @@
 <template>
-  <div class="bd-red">123</div>
+  <div class="bd-red">vvv-hot</div>
   <van-button type="primary">主要按钮</van-button>
   <van-button type="success">成功按钮</van-button>
   <van-button type="default">默认按钮</van-button>

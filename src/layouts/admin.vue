@@ -12,8 +12,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import AdminSidebar from './components/sidebar.vue';
-import AdminNavbar from './components/navbar.vue';
+import AdminSidebar from './admin/components/sidebar.vue';
+import AdminNavbar from './admin/components/navbar.vue';
 
 defineOptions({ name: 'LayoutAdmin' });
 

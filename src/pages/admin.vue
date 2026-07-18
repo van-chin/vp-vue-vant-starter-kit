@@ -8,7 +8,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    layout: 'admin/index',
+    layout: 'admin',
   },
 });
 </script>

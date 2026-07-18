@@ -36,7 +36,12 @@ export function createVuePlugin(isBuild: boolean = false): PluginOption[] {
     }),
     Layouts({
       layoutsDirs: 'src/layouts',
-      // defaultLayout: 'default/index',
+      defaultLayout: 'default',
+      // pagesDirs 设为不存在的路径，避免布局插件对页面文件变化发送 full-reload。
+      // 页面 HMR 由 vue-router/auto-routes 的 handleHotUpdate 处理，
+      // 配合下方回调确保热更新时重新包裹布局。
+      pagesDirs: 'src/pages/_nonexistent_',
+      exclude: ['**/components/**'],
     }),
 
     // DevTools 仅开发环境

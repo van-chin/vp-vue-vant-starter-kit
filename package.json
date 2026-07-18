@@ -8,10 +8,10 @@
     "#build": "./build/index.ts"
   },
   "scripts": {
-    "dev": "vp dev",
     "build": "tsc && vp build",
-    "preview": "vp preview",
-    "prepare": "vp config"
+    "dev": "vp dev",
+    "prepare": "vp config",
+    "preview": "vp preview"
   },
   "dependencies": {
     "@alova/adapter-axios": "catalog:",
@@ -21,29 +21,29 @@
     "nitro": "catalog:",
     "pinia": "catalog:",
     "tailwindcss": "catalog:",
-    "vue-router": "catalog:",
     "vant": "catalog:",
-    "vue": "catalog:"
+    "vue": "catalog:",
+    "vue-router": "catalog:"
   },
   "devDependencies": {
-    "typescript": "catalog:",
-    "vite": "catalog:",
-    "vite-plus": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@tsconfig/node24": "catalog:",
     "@types/jsdom": "catalog:",
     "@types/node": "catalog:",
+    "@vant/auto-import-resolver": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "@vue/tsconfig": "catalog:",
     "jiti": "catalog:",
     "jsdom": "catalog:",
-    "@vant/auto-import-resolver": "catalog:",
+    "typescript": "catalog:",
     "unplugin-auto-import": "catalog:",
     "unplugin-https-reverse-proxy": "catalog:",
     "unplugin-vue-components": "catalog:",
+    "vite": "catalog:",
     "vite-plugin-vue-devtools": "catalog:",
     "vite-plugin-vue-layouts-next": "catalog:",
+    "vite-plus": "catalog:",
     "vue-tsc": "catalog:"
   },
   "devEngines": {

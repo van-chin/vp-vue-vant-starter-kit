@@ -19,7 +19,7 @@
 defineOptions({ name: 'PageScreen' });
 definePage({
   meta: {
-    layout: 'screen/index',
+    layout: 'screen',
   },
 });
 </script>

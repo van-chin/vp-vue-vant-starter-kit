@@ -9,8 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import ScreenHeader from './components/header.vue';
-import ScreenFooter from './components/footer.vue';
+import ScreenHeader from './screen/components/header.vue';
+import ScreenFooter from './screen/components/footer.vue';
 
-// defineOptions({ name: 'LayoutScreen' });
+defineOptions({ name: 'LayoutScreen' });
 </script>

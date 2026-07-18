@@ -13,7 +13,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    layout: 'screen-index',
+    layout: 'screen',
   },
 });
 </script>
