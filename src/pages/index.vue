@@ -1,4 +1,5 @@
 <template>
+  <van-nav-bar title="首页" />
   <div class="bd-red">vvv-hot</div>
   <van-button type="primary">主要按钮</van-button>
   <van-button type="success">成功按钮</van-button>
@@ -8,7 +9,7 @@
   <div class="bd-red h-1000">index</div>
 
   <Department></Department>
-  <div class="p-2">
+  <div class="">
     <div class="bd-red">bottom</div>
   </div>
 </template>

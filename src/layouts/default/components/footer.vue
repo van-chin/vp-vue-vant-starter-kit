@@ -1,5 +1,5 @@
 <template>
-  <footer class="border-t border-gray-200 bg-white py-4">
+  <footer>
     <van-tabbar v-model="active">
       <van-tabbar-item icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item icon="list-switching">分类</van-tabbar-item>
