@@ -1,0 +1,24 @@
+@import 'tailwindcss';
+
+/* Tailwind CSS v4 Theme 配置 */
+@theme {
+  /* 颜色 */
+  /*--color-primary: #3b82f6;
+  --color-secondary: #64748b;*/
+
+  /* 字体 */
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+}
+
+@layer utilities {
+  .bg-size-full {
+    background-size: 100%;
+    @apply flex flex-col;
+  }
+}
+
+
+@utility bd-red {
+    border: 1px solid red;
+}
