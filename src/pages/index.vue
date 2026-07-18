@@ -14,6 +14,14 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePage({
+  meta: {
+    // layout: 'default',
+    showHeader: false,
+    showFooter: true,
+  },
+});
+</script>
 
 <style scoped></style>
