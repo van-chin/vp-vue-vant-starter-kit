@@ -18,7 +18,7 @@
 definePage({
   meta: {
     // layout: 'default',
-    showHeader: false,
+    showHeader: true,
     showFooter: true,
   },
 });

@@ -1,5 +1,16 @@
 @import 'tailwindcss';
 
+/*
+ * 跨平台滚动条兼容性修复：
+ * macOS 使用 overlay 滚动条（不占布局空间），Windows 使用非 overlay 滚动条（占 ~17px）。
+ * fixed 元素（如 van-tabbar）的 width: 100% 基于视口全宽（含滚动条区域），
+ * 在 Windows 上会导致水平溢出 → 触发水平滚动条 → 挤压垂直空间 → 底部出现多余空白。
+ * 对 html 设置 overflow-x: hidden 从源头裁剪水平溢出，阻断该连锁反应。
+ */
+html {
+  overflow-x: hidden;
+}
+
 /* Tailwind CSS v4 Theme 配置 */
 @theme {
   /* 颜色 */
