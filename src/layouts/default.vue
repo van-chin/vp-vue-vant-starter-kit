@@ -3,7 +3,7 @@
     <!-- 头部区域，固定顶部。可由页面通过 useCustomHeader 替换 -->
     <component :is="activeHeader" v-if="activeHeader" />
     <!-- 主要内容区域，内部滚动 -->
-    <main class="flex-1 overflow-y-auto px-2">
+    <main class="flex-1 overflow-y-auto">
       <router-view />
     </main>
     <!-- 底部区域，正常流布局，flex 自动分配空间。
