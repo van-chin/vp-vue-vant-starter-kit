@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-4 p-4">
+  <div class="space-y-4 px-4">
     <!-- 功能说明 -->
     <van-notice-bar color="#1677ff" background="#e8f0fe" left-icon="info-o">
       测试页：自定义 Header/Footer 替换功能
