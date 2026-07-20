@@ -1,4 +1,4 @@
-# vp-vue-vant-starter-kit
+# vant-starter-kit
 
 基于 **Vite+** 工具链的现代化移动端 H5 应用快速启动模板。集成 Vue 3、Vant 4、Tailwind CSS v4、Pinia、Alova、Nitro 全栈能力，开箱即用。
 
@@ -44,8 +44,8 @@
 
 ```bash
 # 克隆项目
-git clone <repo-url> vp-vue-vant-starter-kit
-cd vp-vue-vant-starter-kit
+git clone <repo-url> vant-starter-kit
+cd vant-starter-kit
 
 # 安装依赖
 pnpm install

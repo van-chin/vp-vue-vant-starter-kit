@@ -15,7 +15,7 @@ Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.de
 
 <!--VITE PLUS END-->
 
-# vp-vue-vant-starter-kit — 项目开发指南
+# vant-starter-kit — 项目开发指南
 
 ## 技术栈
 
