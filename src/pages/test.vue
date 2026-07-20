@@ -5,6 +5,8 @@
       测试页：自定义 Header/Footer 替换功能
     </van-notice-bar>
 
+    <div class="bd-red p-2" style="height: 200px">ddd</div>
+
     <!-- 当前状态卡 -->
     <van-cell-group inset>
       <van-cell title="当前 Layout" value="default" />
@@ -49,6 +51,7 @@
       <van-cell title="返回首页" is-link to="/" />
       <van-cell title="Screen 页面" is-link to="/screen" />
     </van-cell-group>
+    <div class="bd-red p-2" style="height: 200px">ddd</div>
   </div>
 </template>
 

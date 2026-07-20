@@ -1,5 +1,5 @@
 <template>
-  <footer class="border-t border-cyan-200 bg-cyan-50">
+  <footer class="border-t border-cyan-200 bg-cyan-50" style="height: 100px">
     <div class="flex items-center justify-around py-3">
       <button class="flex flex-col items-center gap-1 text-cyan-600" @click="toggleShowHeader">
         <span class="text-lg">{{ showHeader ? '🙈' : '👁️' }}</span>

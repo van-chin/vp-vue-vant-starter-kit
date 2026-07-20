@@ -3,10 +3,10 @@
     <!-- 头部区域，固定顶部。可由页面通过 useCustomHeader 替换 -->
     <component :is="activeHeader" v-if="activeHeader" />
     <!-- 主要内容区域，内部滚动 -->
-    <main class="flex-1 overflow-y-auto px-2" :class="{ 'pb-tabbar': activeFooter }">
+    <main class="flex-1 overflow-y-auto px-2">
       <router-view />
     </main>
-    <!-- 底部区域，van-tabbar 自身 position: fixed 固定到底部。
+    <!-- 底部区域，正常流布局，flex 自动分配空间。
          可由页面通过 useCustomFooter 替换 -->
     <component :is="activeFooter" v-if="activeFooter" />
   </div>
@@ -24,14 +24,3 @@ const { activeHeader, activeFooter } = useLayoutProvider(DefaultHeader, DefaultF
   showFooter,
 });
 </script>
-
-<style scoped>
-/*
-  van-tabbar 默认 position: fixed，脱离文档流。
-  给 main 添加等高的 padding-bottom，避免内容被 tabbar 遮挡。
-  注意：绑定了 activeFooter 而不是 showFooter，因为自定义组件也可能需要垫高。
-*/
-.pb-tabbar {
-  padding-bottom: var(--van-tabbar-height, 50px);
-}
-</style>
