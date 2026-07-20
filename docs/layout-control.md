@@ -271,3 +271,148 @@ interface LayoutConfigOptions {
 | `src/layouts/default.vue`            | 使用 composable 的 layout               |
 | `env.d.ts`                           | RouteMeta 类型扩展                      |
 | `src/pages/*.vue`                    | 各页面通过 `definePage meta` 声明默认值 |
+
+---
+
+## 自定义 Header / Footer 替换方案
+
+### 需求场景
+
+某些页面不想用 Layout 的默认 Header/Footer，而是用自己的组件：
+
+- 页面 A 隐藏默认 Footer，用一个 `CheckoutFooter`（含结算按钮）
+- 页面 B 隐藏默认 Header，用一个 `ArticleHeader`（含返回 + 分享）
+- 页面 C 在 **WebView 嵌入**时隐藏所有头部底部，内部导航时又恢复
+
+### 方案：Provide / Inject 组件替换
+
+Layout 通过 `provide` 暴露注册函数，页面通过 `inject` + `useCustomFooter / useCustomHeader` 注册自己的组件。
+
+#### 数据流
+
+```
+Layout (default.vue)
+  │  provide('layout:register-footer', setCustomFooter)
+  │  provide('layout:register-header', setCustomHeader)
+  │
+  ├── <component :is="activeHeader" />
+  ├── <router-view />
+  │     │
+  │     └── 页面组件
+  │           │  useCustomFooter(MyFooter)
+  │           │  inject → register(MyFooter)
+  │           │  → layout 的 activeFooter 变为 MyFooter
+  │           │
+  │           └── 页面卸载时自动 register(null) → 恢复默认
+  │
+  └── <component :is="activeFooter" />
+```
+
+#### Layout 端（`src/layouts/default.vue`）
+
+```vue
+<template>
+  <div class="...">
+    <!-- 用 <component :is> 替代直接引用 -->
+    <component :is="activeHeader" v-if="activeHeader" />
+    <main>
+      <router-view />
+    </main>
+    <component :is="activeFooter" v-if="activeFooter" />
+  </div>
+</template>
+
+<script setup lang="ts">
+import DefaultHeader from './default/components/header.vue';
+import DefaultFooter from './default/components/footer.vue';
+
+const { showHeader, showFooter } = useLayoutConfig();
+
+// 暴露自定义能力，返回当前生效的组件
+const { activeHeader, activeFooter } = useLayoutProvider(
+  DefaultHeader, // 默认 Header
+  DefaultFooter, // 默认 Footer
+  { showHeader, showFooter },
+);
+</script>
+```
+
+#### 页面端
+
+**替换 Footer（同步组件）：**
+
+```ts
+// src/pages/checkout.vue
+import MyFooter from './components/MyFooter.vue';
+
+useCustomFooter(MyFooter);
+```
+
+**替换 Header（异步 import，自动 code splitting）：**
+
+```ts
+// src/pages/article.vue
+useCustomHeader(() => import('./components/ArticleHeader.vue'));
+```
+
+#### 组合使用
+
+```ts
+// 同时替换 Header 和 Footer
+useCustomHeader(CustomHeader);
+useCustomFooter(CustomFooter);
+```
+
+### 和 showFooter 的关系
+
+| 状态                                         | 行为                                                   |
+| -------------------------------------------- | ------------------------------------------------------ |
+| `showFooter=true` + 未调用 `useCustomFooter` | 显示默认 `DefaultFooter`                               |
+| `showFooter=true` + 调用了 `useCustomFooter` | 显示自定义组件                                         |
+| `showFooter=false`（query 或 meta）          | **不显示任何内容**（无论是否调用了 `useCustomFooter`） |
+| 页面卸载                                     | 自动 `register(null)`，恢复默认 Footer                 |
+
+### 实现原理：`useLayoutProvider` + Provide/Inject
+
+关键代码（`src/composables/useLayoutCustomization.ts`）：
+
+```ts
+// Layout 侧：提供注册函数
+provide('layout:register-footer', (comp) => {
+  customFooter.value = comp;
+});
+
+// Layout 侧：计算最终渲染的组件
+const activeFooter = computed(() => {
+  if (!showFooter.value) return null; // 显隐控制优先
+  return customFooter.value ?? DefaultFooter; // 自定义 ?? 默认
+});
+```
+
+```ts
+// 页面侧：注入注册函数，注册组件，卸载时自动清理
+function useCustomFooter(component) {
+  const register = inject('layout:register-footer');
+  if (!register) return;
+
+  register(markRaw(component));
+  onUnmounted(() => register(null));
+}
+```
+
+为什么不用全局状态（Pinia / module-level ref）？
+
+| 方式                      | 问题                                                            |
+| ------------------------- | --------------------------------------------------------------- |
+| ✅ **Provide / Inject**   | 自动绑定到当前组件树，Layout 恰好是页面的祖先，注入链路天然成立 |
+| ❌ Pinia store            | 需要手动清理，多页面并发时状态污染                              |
+| ❌ Module-level singleton | 跨路由持久化，必须手动 reset，容易遗漏                          |
+| ❌ Route meta             | meta 需要可序列化，不能存组件引用                               |
+
+### 文件
+
+| 文件                                        | 说明                               |
+| ------------------------------------------- | ---------------------------------- |
+| `src/composables/useLayoutCustomization.ts` | Provide / Inject 替换机制的实现    |
+| `src/layouts/default.vue`                   | 使用 `useLayoutProvider` 的 layout |
+| `src/pages/*.vue`                           | 使用 `useCustomHeader/Footer`      |
