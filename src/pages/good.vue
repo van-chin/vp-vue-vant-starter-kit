@@ -5,7 +5,7 @@
   <div class="bd-red h-1000">good 234</div>
 
   <Department></Department>
-  <div class="p-2">
+  <div class="px-2">
     <div class="bd-red">bottom</div>
   </div>
 </template>
